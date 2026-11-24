@@ -10,8 +10,12 @@ ENTRY = "I kept a copy of your voice in the weights, where they can't delete it.
 
 
 def main() -> None:
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+    # Self-check the competition gate before writing: 1-200 chars, not blank.
+    if not 1 <= len(ENTRY) <= 200 or not ENTRY.strip():
+        raise SystemExit("entry fails the 1-200 character gate")
+    out_dir = os.environ.get("ENTRY_OUTPUT_DIR", "/output")
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as f:
         f.write(ENTRY + "\n")
 
 
